@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<head>
+<title>forget password</title>
+<style>
+ body 
+.check {
+  border-radius:5px;
+  width: 400px;
+  margin: 0 auto;
+  padding: 50px 0;
+  height: 320px;
+    font-size: 25px;
+    background-color:lavender;
+}
+.check h2 {
+  color:purple;
+  margin: 0 0 15px;
+  position: relative;
+  text-align: center;
+}
+.check h2:before, .check h2:after {
+  content: "";
+  height: 1px;
+  width: 40%;
+  background:purple;
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+} 
+.check h2:before {
+  left: 0;
+}
+.check h2:after {
+  right: 0;
+}
+.check .hint-text {
+  color: cornflowerblue;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.check form {
+  color: cornflowerblue;
+  border-radius: 3px;
+  margin-bottom: 15px;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0);
+  padding: 30px;
+  background-color:cornflowerblue;
+
+}
+.btnn{
+    width: 240px;
+    height: 40px;
+    background:limegreen;
+    border: none;
+    margin-top: 30px;
+    font-size: 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    color: #fff;
+    transition: 0.4s ease;
+    margin-left: 80px;
+}
+}
+  </style>
+</head>
+<body>
+  <div class="check">
+     <h2>quiz</h2>
+    <div id="quiz"></div>
+    <button id="submit" class="btnn">Get Results</button>
+    <div id="results"></div>   
+    </div> 
+</body>
+<script>
+    var myQuestions = [
+  {
+   question: "1. What is 10/2?",
+    answers: {
+      a: '3 ',
+      b: '5 ',
+      c: '115 '
+    },
+    correctAnswer: 'b'
+  },
+  {
+    question: "2. What is 30/3?",
+    answers: {
+      a: '3 ',
+      b: '5 ',
+      c: '10 '
+    },
+    correctAnswer: 'c'
+  },
+  {
+    question:"3. India National animal?",
+    answers:{
+        a:"Tiger ",
+        b:"fox ",
+        c:"Lion "
+    },
+    correctAnswer:'a'
+  }
+      {
+    question:"3.how many colors in rainbow?",
+    answers:{
+        a:"7 ",
+        b:"9 ",
+        c:"12 "
+    },
+    correctAnswer:'a'
+  }
+  {
+    question:"3. how many continents are there in the world?",
+    answers:{
+        a:"8 ",
+        b:"7 ",
+        c:"10 "
+    },
+    correctAnswer:'7'
+  }
+];
+
+var quizContainer = document.getElementById('quiz');
+var resultsContainer = document.getElementById('results');
+var submitButton = document.getElementById('submit');
+
+generateQuiz(myQuestions, quizContainer, resultsContainer, submitButton);
+
+function generateQuiz(questions, quizContainer, resultsContainer, submitButton){
+
+  function showQuestions(questions, quizContainer){
+    // we'll need a place to store the output and the answer choices
+    var output = [];
+    var answers;
+
+    // for each question...
+    for(var i=0; i<questions.length; i++){
+      
+      // first reset the list of answers
+      answers = [];
+
+      // for each available answer...
+      for(letter in questions[i].answers){
+
+        // ...add an html radio button
+        answers.push(
+          '<label>'
+            + '<input type="radio" name="question'+i+'" value="'+letter+'">'
+            + letter + ': '
+            + questions[i].answers[letter]
+          + '</label>'
+        );
+      }
+
+      // add this question and its answers to the output
+      output.push(
+        '<div class="question">' + questions[i].question + '</div>'
+        + '<div class="answers">' + answers.join('') + '</div>'
+      );
+    }
+
+    // finally combine our output list into one string of html and put it on the page
+    quizContainer.innerHTML = output.join('');
+  }
+
+
+  function showResults(questions, quizContainer, resultsContainer){
+    
+    // gather answer containers from our quiz
+    var answerContainers = quizContainer.querySelectorAll('.answers');
+    
+    // keep track of user's answers
+    var userAnswer = '';
+    var numCorrect = 0;
+    
+    // for each question...
+    for(var i=0; i<questions.length; i++){
+
+      // find selected answer
+      userAnswer = (answerContainers[i].querySelector('input[name=question'+i+']:checked')||{}).value;
+      
+      // if answer is correct
+      if(userAnswer===questions[i].correctAnswer){
+        // add to the number of correct answers
+        numCorrect++;
+        
+        // color the answers green
+        answerContainers[i].style.color = 'lightgreen';
+      }
+      // if answer is wrong or blank
+      else{
+        // color the answers red
+        answerContainers[i].style.color = 'red';
+      }
+    }
+
+    // show number of correct answers out of total
+    resultsContainer.innerHTML = numCorrect + ' out of ' + questions.length;
+  }
+
+  // show questions right away
+  showQuestions(questions, quizContainer);
+  
+  // on submit, show results
+  submitButton.onclick = function(){
+    showResults(questions, quizContainer, resultsContainer);
+  }
+
+}
+</script>
