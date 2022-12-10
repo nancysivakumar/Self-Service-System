@@ -11,7 +11,7 @@ body
 .form-control {
   height: 40px;
   box-shadow: none;
-  color: #969fa4;
+  color: #969fa4;  
 }
 .form-control:focus {
   border-color: #5cb85c;
@@ -78,12 +78,12 @@ body
 </head>
 <body>
 <div class="signup-form">
-    <form action="/examples/actions/confirmation.php" method="post">
+    <form action="servlet" method="get">
     <h2>Welcome</h2>
         <div class="form-group">
           <input type="text" class="form-control" name="Username" placeholder="Username">
           <div>
-            <a href="a" style="color: black;">Forget Username</a>
+            <a href="forget.html" style="color: black;">Forget Username</a>
           </div>
         </div>
     <div class="form-group">
